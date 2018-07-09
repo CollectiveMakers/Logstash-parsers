@@ -1,0 +1,7 @@
+HOST_IN_URL %{URIPROTO}://(?:%{USER}(?::[^@]*)?@)?(%{HOSTNAME:dst_host}(?::%{POSINT})?)?(?:%{URIPATHPARAM})? 
+
+LINUX_CP ^\<%{POSINT:syslog_id}\>(?:%{SYSLOGTIMESTAMP:time_logged} )?(?:%{LOGLEVEL:pri} )?(%{SYSLOGHOST:hostname} )?%{SYSLOGPROG}:%{SPACE}%{GREEDYDATA:end_of_message}
+
+# Automatic type detection
+LINUX_ATD ^\<%{POSINT}\>(?:%{SYSLOGTIMESTAMP} )?(?:%{LOGLEVEL} )?(?:%{SYSLOGHOST} )?%{PROG}(?:\[%{POSINT}\])?:%{SPACE}%{GREEDYDATA}
+

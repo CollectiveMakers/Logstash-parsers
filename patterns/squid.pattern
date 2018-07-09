@@ -1,0 +1,6 @@
+UNIXTIMESTAMP %{INT}.%{NONNEGINT}
+
+# Do not capture HTTP protocol
+#URI_SQUID (?:%{USER}(?::[^@]*)?@)?(?:%{URIHOST})?(?:%{URIPATHPARAM})?
+
+SQUID_ACCESS ^%{UNIXTIMESTAMP:time_logged}\s+%{NUMBER:duration_ms:int} %{IP:src_ip} %{WORD:result_code}/%{INT:http_status} %{INT:bytes_received:int} %{WORD:http_method} (%{URIPROTO:http_proto}://)?%{DATA:url} (-|%{USERNAME:user_name}) %{WORD:hierarchy_origin}/(-|%{IP:dst_ip}|%{DATA:dst_host}) (-|%{GREEDYDATA:mime_type})$

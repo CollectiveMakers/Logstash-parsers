@@ -1,0 +1,5 @@
+URL %{GREEDYDATA:http_proto}://%{DATA:http_fqdn}/%{GREEDYDATA:http_path}
+MERAKITYPE urls|flows|events|ids-alerts|security_event
+MERAKILOG <%{POSINT:syslog_id}\>1 %{NUMBER:time_logged} %{DATA:hostname} %{MERAKITYPE:meraki_type} %{GREEDYDATA:end_of_message}
+MERAKIURLS %{GREEDYDATA:kv_message} request: %{WORD:http_method} %{URL:http_url}
+MERAKIFLOWS %{GREEDYDATA:kv_message} pattern: %{GREEDYDATA:end_of_message}|%{WORD:action}%{GREEDYDATA:kv_message}

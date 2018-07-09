@@ -1,0 +1,66 @@
+# Antivirus Negative/Positive/Repaired
+ANTIVIRUS ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} antivirus %{WORD:esa_av_result}( \'%{DATA:esa_virus_name}\')?
+
+# IronPort Dropped by filter/antivirus
+DROPPEDBY ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: Message aborted MID %{NUMBER:esa_mid} Dropped by %{WORD:esa_av_result}( '%{DATA:esa_filter_result}')?
+
+# IronPort SPAM quarantine
+SPAMQUARANTINE ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: EUQ: Quarantined MID %{NUMBER:esa_mid}
+
+# IronPort SPAM positive
+SPAMPOSITIVE ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} using engine: (%{WORD:esa_engine}) spam positive
+
+# IronPort invalid DNS Response
+INVALIDDNSRESP ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: Received an invalid DNS Response: rcode=%{WORD:esa_rcode} data=%{QS:esa_data} to IP %{IP:dst_ip} looking up %{GREEDYDATA:esa_looking_up_hostname}
+
+# Output Mail - Src/Dst
+OUTMAILSRCDST ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} ICID %{NUMBER:esa_icid} RID %{NUMBER:esa_rid} (To: \<%{DATA:recipient}\>|From: \<%{DATA:sender}\>)
+
+# Output Mail - Creating
+OUTMAILCREATING ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: Start MID %{NUMBER:esa_mid} ICID %{NUMBER:esa_icid}
+
+# Match Relaylist
+MATCHRELAYLIST ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: ICID %{NUMBER:esa_icid} RELAY SG RELAYLIST match %{IP:dst_ip}\/%{NONNEGINT:mask} SBRS %{GREEDYDATA:esa_state}
+
+# Reverse dns no verified
+REVERSEDNSNOVERIF ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: New SMTP ICID %{NUMBER:esa_icid} interface %{DATA:interface_type} \((%{IP:mgmt_ip})\) address %{IP:dns_ip} reverse dns host unknown verified no
+
+# Reverse dns verified
+REVERSEDNSVERIF ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: New SMTP ICID %{NUMBER:esa_icid} interface %{DATA:interface_type} \((%{IP:mgmt_ip})\) address %{IP:dns_ip} reverse dns host %{HOSTNAME:dns_host} verified yes
+
+# Input Connection
+INPUTCONNECTION ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: New SMTP DCID %{NUMBER:esa_dcid} interface %{IP:in_interface} address %{IP:src_ip} port %{NUMBER:src_port}
+
+# Closing Connection
+CLOSINGCONNECTION ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: DCID %{NUMBER:esa_dcid} close
+
+# Rejected/Accepted-List Match
+LISTMATCH ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: ICID %{NUMBER:esa_icid} %{WORD:esa_state} SG %{WORD:esa_list} match sbrs\[%{DATA:esa_sbrs_interval}\] SBRS %{GREEDYDATA:esa_sbrs_score}
+
+# Delivery start
+DELIVERYSTART ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: Delivery start DCID %{NUMBER:esa_dcid} MID %{NUMBER:esa_mid} to RID \[%{GREEDYDATA:esa_rid}\]
+
+# Message ID
+MSGID ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} Message-ID \'\<%{DATA:esa_msgid}\>\'
+
+# Message Subject
+MSGSUBJECT ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} Subject %{GREEDYDATA:subject}
+
+# Message size
+MSGSIZE ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} ready %{NUMBER:bytes_received:int} bytes from \<%{DATA:sender}\>
+
+# Recipients match
+RECIPIENTSMATCH ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} matched all recipients for per-recipient policy %{WORD:esa_policy} in the inbound table
+
+# Message too big for scanning
+TOOBIGFORSCAN ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} was too big \(%{GREEDYDATA:msg_size}\) for scanning by %{GREEDYDATA:esa_engine}
+
+# Message finished OK/ABORTED / Message aborted
+MSGSTATE ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: Message %{WORD:msg_state} MID %{NUMBER:esa_mid} (Receiving )?%{GREEDYDATA:esa_result}
+
+# Sophos CLEAN/VIRAL
+SOPHOSVERDICT ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}: MID %{NUMBER:esa_mid} interim AV verdict using Sophos %{WORD:esa_sophos_scan_verdict}
+
+# Extract Ironport LOG IDs
+EXTRACTIRONPORTID ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{PROG:log_category}: %{LOGLEVEL:pri}:((%{DATA} MID %{NUMBER:esa_mid})|(%{DATA} DCID %{NUMBER:esa_dcid})|(%{DATA} ICID %{NUMBER:esa_icid})|(%{DATA} RID \[%{NUMBER:esa_rid}\]))*
+

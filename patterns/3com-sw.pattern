@@ -1,0 +1,3 @@
+SYSLOGTIMESTAMP_YEAR %{MONTH} +%{MONTHDAY} %{TIME} %{YEAR}
+
+3COM_SW ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP_YEAR:time_logged} %{SYSLOGHOST:hostname} %%%{DATA:reason_abbr}/%{INT:pri}/%{DATA:reason_mnemonic}:%{GREEDYDATA:end_of_message}

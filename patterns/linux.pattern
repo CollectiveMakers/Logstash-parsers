@@ -1,0 +1,3 @@
+WPNOH (?:%{HOSTNAME},)?%{DATA:user_name},%{GREEDYDATA:command}
+
+SSH_FAILED_PWD %{DATA:event} for %{DATA:user_name} from %{IPV4:src_ip} port %{POSINT:src_port} %{GREEDYDATA:proto}

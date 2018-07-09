@@ -1,0 +1,5 @@
+WINDOWS_FILE_PATH (?>[A-Za-z]+:|\\)(?:\\[^\\?*]*)+\\
+WINDOWS_FILE_NAME (?:[^\\?*]*)
+WINLOG_MFA %{WINLOG_MFA1}|%{WINLOG_MFA2}
+WINLOG_MFA1 CID: %{DATA:cid} : %{DATA:action} for user %{DATA:user_name} with Azure MFA response: %{WORD:mfa_reason} and message: %{GREEDYDATA:mfa_message}
+WINLOG_MFA2 NPS Extension for Azure MFA only performs Secondary Auth for Radius requests in AccessAccept State. Request received for User %{DATA:user_name} with response state %{DATA:action}, ignoring request.

@@ -1,0 +1,3 @@
+JUNIPER_SSL_VPN_COMMON ^\<%{POSINT:syslog_id}\> %{TIMESTAMP_ISO8601:syslog_date}%{SPACE}(?:%{HOSTNAME})?(?: %{DATA:vpn_client})?: %{TIMESTAMP_ISO8601:time_logged} - %{HOSTNAME:hostname} - \[%{IP:src_ip}\] (?:%{DATA:domain_name}\\)?%{DATA:user_name}\((?:%{DATA:vpn_user_realm})?\)\[(?:%{DATA:vpn_user_role})?\] - %{GREEDYDATA:vpn_message}
+
+JUNIPER_SSL_VPN_AUTH %{DATA:vpn_details} for (?:%{DATA}\\)?%{DATA}/%{DATA:vpn_authentication_type} from %{IP}

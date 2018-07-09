@@ -1,0 +1,5 @@
+"0" : NoQuarantine
+"1" : Quarantine
+"2" : Drop Packet
+"3" : Probation
+"6" : No Quarantine Information ProbationTime:Year-Month-Day Hour:Minute:Second:MilliSecond.

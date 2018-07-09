@@ -1,0 +1,6 @@
+CISCO_SW_P1 ^\<%{POSINT:syslog_id}\>%{NUMBER:log_sequence}: (%{NUMBER}:)?%{CISCOTIMESTAMP:time_logged}: %%{CISCO_REASON:reason_abbr}-%{INT:pri}-%{CISCO_REASON:reason_mnemonic}: %{GREEDYDATA:end_of_message}
+
+CISCO_SW_P2 ^\<%{POSINT:syslog_id}\>%{NUMBER:log_sequence}: (%{NUMBER}:)?%{CISCOTIMESTAMP:time_logged}: %%{CISCO_REASON:reason_abbr}-%{CISCO_REASON:reason_sub}-%{INT:pri}-%{CISCO_REASON:reason_mnemonic}: %{GREEDYDATA:end_of_message}
+
+# Automatic type detection
+CISCO_SW_ATD ^\<%{POSINT}\>%{NUMBER}: (%{NUMBER}:)?%{CISCOTIMESTAMP}: %%{CISCO_REASON}-%{GREEDYDATA}

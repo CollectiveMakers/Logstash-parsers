@@ -1,0 +1,57 @@
+filter {
+ if [type] == "wineventlog" {
+	# Normalization
+ 	mutate {
+		rename => [ "Message", "message" ]
+		rename => [ "Severity", "pri" ]
+		rename => [ "EventID", "event_id" ]
+		rename => [ "Hostname", "hostname" ]
+		rename => [ "EventTime", "time_logged" ]
+		rename => [ "WorkstationName", "src_host" ]
+		rename => [ "Channel", "channel" ]
+        rename => [ "Category", "category" ]
+        rename => [ "User", "user_name" ]
+        rename => [ "Username", "user_name" ]
+        rename => [ "UserName", "user_name" ]
+        rename => [ "DomainName", "domain_name" ]
+        rename => [ "DCDomainName", "domain_name" ]
+        rename => [ "TargetDomainName", "domain_name" ]
+        rename => [ "Domain", "domain_name" ]
+        rename => [ "AccountDomain", "domain_name" ]
+        rename => [ "LogonType", "logon_type" ]
+        # Store as String because IPv6 addresses are not supported (migrate to => v5.0)
+        rename => [ "IpAddress", "src_ip_addr" ]
+        rename => [ "IpPort", "src_port" ]
+	}
+	# Date normalization
+	if [time_logged] {
+		date {
+			match => [ "time_logged", "yyyy-MM-dd HH:mm:ss" ]
+			target => "time_logged"
+		}
+	}
+
+	# user_name initialization
+    if ![user_name] {
+    	if [UserContext] and [UserContext] != "-" {
+	    	mutate { add_field => [ "user_name", "%{[UserContext]}" ] }
+    	}
+        else if [TargetUserName] and [TargetUserName] != "-" {
+                mutate { add_field => [ "user_name", "%{[TargetUserName]}" ] }
+        }
+	else if [SubjectUserName] and [SubjectUserName] != "-" {
+		    mutate { add_field => [ "user_name", "%{[SubjectUserName]}" ] }
+        }
+	if [AccountName] and [AccountName] != "-" {
+		    if [user_name] { mutate { add_field => [ "account_name", "%{[AccountName]}" ] } }
+		    else {  mutate { add_field => [ "user_name", "%{[AccountName]}" ] } }
+	}
+        if [NewTargetUserName] and [NewTargetUserName] != "-" {
+            mutate { add_field => [ "new_target_user_name", "%{[NewTargetUserName]}" ] }
+        }
+        if [OldTargetUserName] and [OldTargetUserName] != "-" {
+            mutate { add_field => [ "old_target_user_name", "%{[OldTargetUserName]}" ] }
+        }
+   }
+ }
+}

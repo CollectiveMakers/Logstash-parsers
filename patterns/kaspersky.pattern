@@ -1,0 +1,14 @@
+KASPERSKY_EVENT_TYPE (?m)^%{HOSTNAME:src_host} \[%{WIN_KASPERSKY_DATE:src_time_logged_tmp}\] \(%{DATA:av_module}\):%{SPACE}Event type:%{SPACE}%{DATA:av_event_type}\r\n%{GREEDYDATA}
+
+KASPERSKY_ALERT (?m)^%{HOSTNAME:src_host} \[%{WIN_KASPERSKY_DATE:src_time_logged_tmp}\] \(%{DATA:av_module}\):%{SPACE}(?:Result|Résultat)%{SPACE}:%{SPACE}%{DATA:av_action}%{SPACE}:%{SPACE}%{DATA:av_signature}\r\n(?:User|Utilisateur)%{SPACE}:%{SPACE}%{DATA:domain_name}\\(?:\\)?%{DATA:user_name} \(%{DATA}\)\r\n(?:Object|Objet)%{SPACE}:%{SPACE}%{DATA:av_object}\r\n$
+
+KASPERSKY_OPERATION_DEVICE_PROHIBITED (?m)^%{HOSTNAME:src_host} \[%{WIN_KASPERSKY_DATE:src_time_logged_tmp}\] \(%{DATA:av_module}\):%{SPACE}(?:Event type)%{SPACE}:%{SPACE}%{DATA:av_event_type}\r\n(?:Device\\Device category)%{SPACE}:%{SPACE}%{DATA:device_category}\r\n(?:Device\\Device type/Bus type)%{SPACE}:%{SPACE}%{DATA:device_type}\r\n(?:Device\\Device ID)%{SPACE}:%{SPACE}%{DATA:device_id}\r\n(?:Device\\Device VID and PID)%{SPACE}:%{SPACE}%{DATA:device_vid_pid}\r\n(?:User|Utilisateur)%{SPACE}:%{SPACE}%{DATA:domain_name}\\(?:\\)?%{DATA:user_name} \(%{DATA}\)\r\n(?:Result\\Decision)%{SPACE}:%{SPACE}%{DATA:result_decision}\r\n(?:Result\\File name)%{SPACE}:%{SPACE}%{DATA:result_filename}\r\n(?:Result\\Operation)%{SPACE}:%{SPACE}%{DATA:result_operation}\r\n$
+
+KASPERSKY_WEB_URL_INFO (?m)^%{DATA:av_object_url}\r\n(?:Reason|Raison)%{SPACE}:%{SPACE}%{DATA:av_reason}\r\n(?:Date de publication des bases)%{SPACE}:%{SPACE}%{DATA:av_sig_publication_date}$
+
+KASPERSKY_ALERT_PROTECTION (?m)^%{HOSTNAME:src_host} \[%{WIN_KASPERSKY_DATE:src_time_logged_tmp}\] \(%{DATA:av_module}\):%{SPACE}Event type%{SPACE}:%{SPACE}%{DATA:av_event_type}\r\nApplication\\Name%{SPACE}:%{SPACE}%{DATA:av_app_name}\r\nApplication\\Path%{SPACE}:%{SPACE}%{DATA:av_app_path}\r\n(?:User|Utilisateur)%{SPACE}:%{SPACE}%{DATA:domain_name}\\(?:\\)?%{DATA:user_name} \(%{DATA}\)\r\n(?:Component|Composant)%{SPACE}:%{SPACE}%{DATA}\r\nResult\\Description%{SPACE}:%{SPACE}%{DATA:av_result}\r\n$
+
+# Date
+WIN_KASPERSKY_DATE %{JOUR} %{MONTHDAY} %{MOIS} %{YEAR} %{TIME} \(%{DATA:timezone}\)
+JOUR \b[Ll]un(?:di)?|[Mm]ar(?:di)?|[Mm]er(?:credi)?|[Jj]eu(?:di)?|[Vv]en(?:dredi)?|[Ss]am(?:edi)?|[Dd]im(?:anche)?\b
+MOIS \b(?:[Jj]an(?:vier)?|[Ff][eé]v(?:rier)?|[Mm]ar(?:s)?|[Aa]vr(?:il)?|[Mm]a(?:i)?|[Jj]uin|[Jj]uil(?:let)?|[Aa]o[uû](?:t)?|[Ss]ep(?:tembre)?|[Oo]ct(?:obre)?|[Nn]ov(?:embre)?|[Dd][eé]c(?:embre)?)\b

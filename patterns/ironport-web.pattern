@@ -1,0 +1,18 @@
+UNIXTIMESTAMP %{INT}.%{NONNEGINT}
+
+# Ironport web common pattern
+IRONPORTWEB_CP ^\<%{POSINT:syslog_id}\>%{SYSLOGTIMESTAMP:time_logged} %{DATA:log_category}: %{LOGLEVEL:pri}:( %{GREEDYDATA:end_of_message})?
+
+# Access logs specific pattern
+IRONPORTWEB_ACCESSLOGS_SP %{UNIXTIMESTAMP:unix_timestamp} %{INT:latency_ms:int} %{IP:src_ip} %{DATA:result_code}/%{INT:http_status} %{INT:bytes_received:int} %{WORD:http_method}
+
+# Proxy logs
+IRONPORTWEB_PROXYLOGS_LOGIN_FAILURE %{DATA:log_subcategory} : - : \[%{DATA:domain_name}\]Login for user \[%{DATA}\]\\\[%{DATA:user_name}\]@\[%{DATA:src_host}\] %{WORD:status} due to \[%{DATA:reason}\]
+IRONPORTWEB_PROXYLOGS_AUTH_FAILURE %{DATA:log_subcategory} : - : \[%{DATA:domain_name}\](Plain-text|NTLM CRAP) authentication for user %{DATA}\\\[%{DATA:user_name}\] returned %{GREEDYDATA:reason}
+IRONPORTWEB_PROXYLOGS_CLI_CLOSE %{DATA:log_subcategory} : - : \[%{DATA:domain_name}\]%{DATA:message_type}: cli_close failed on pipe %{DATA:pipe_name}, %{DATA} to machine %{DATA:src_host}  %{GREEDYDATA:reason}
+IRONPORTWEB_PROXYLOGS_CRED_CHK_FAIL %{DATA:log_subcategory} : - : \[%{DATA:domain_name}\]%{DATA:message_type}: %{GREEDYDATA:reason}
+IRONPORTWEB_PROXYLOGS_WBRS_REQ_EXPIRED  %{DATA:log_subcategory} : - : WBRS: %{GREEDYDATA:reason}
+IRONPORTWEB_PROXYLOGS %{DATA:log_subcategory} : - : (?>%{DATA:message_type}:) %{GREEDYDATA:end_of_message}
+
+# IDS data loss logs 
+IRONPORTWEB_IDSDATALOSS_LOGS (?>%{INT:msgid} )(?>%{DATA:dst_ip} )(?>(\")?%{DATA:user_name}(\")? )(?>(\")?%{DATA:wsa_policies}(\")? )(\<\<%{DATA:file_name},%{DATA:mime_type},%{INT:bytes_received:int}\>\> )(?>%{DATA:wsa_acltag}-)(?>%{DATA:wsa_access_decrypt_policy}-)(?>%{DATA:wsa_identity_policy}-)(?>%{DATA:wsa_outbound_malware_scan_policy}-)(?>%{DATA:wsa_data_security_policy}-)(?>%{DATA:wsa_ext_dl_policy}-)(?>%{DATA:wsa_routing_policy} )(%{DATA:wsa_wbrs_score} )(%{DATA:dst_host} )(?>%{GREEDYDATA:wsa_webcat_code_abbr})
